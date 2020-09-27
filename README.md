@@ -4,6 +4,8 @@ This library is a lightweight implementation of the [MessagePack](http://msgpack
 
 ![Build status](https://ci.appveyor.com/api/projects/status/84jv0lllniqsicpb?svg=true) (https://ci.appveyor.com/project/caesay/mpack)
 
+基于MPack做了对结合ILRuntime使用的修改，请在ILR绑定前调用MPack.RegisterILRuntimeCLRRedirection(appdomain)注册，再使用。
+
 Notes
 -----
 * This library is designed to be super light weight.
