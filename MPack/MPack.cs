@@ -27,11 +27,45 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ILRuntime.CLR.Method;
+using ILRuntime.CLR.Utils;
+using ILRuntime.Runtime.Intepreter;
+using ILRuntime.Runtime.Stack;
 
 namespace CS
 {
     public class MPack : IEquatable<MPack>, IConvertible
     {
+        public unsafe static void RegisterILRuntimeCLRRedirection(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
+        {
+            foreach (var i in typeof(MPack).GetMethods())
+            {
+                if (i.Name == "ParseFromBytes" && i.IsGenericMethod)
+                {
+                    var param = i.GetParameters();
+                    if (param[0].ParameterType == typeof(byte[]))
+                    {
+                        appdomain.RegisterCLRMethodRedirection(i, MPackParseFromBytes);
+                    }
+
+                }
+
+            }
+        }
+
+        public unsafe static StackObject* MPackParseFromBytes(ILIntepreter intp, StackObject* esp, IList<object> mStack, CLRMethod method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(esp, 1);
+            ptr_of_this_method = ILIntepreter.Minus(esp, 1);
+            byte[] array = (byte[])typeof(byte[]).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, mStack));
+            intp.Free(ptr_of_this_method);
+            var result_of_this_method = ParseFromStream(new MemoryStream(array));
+
+            return ILIntepreter.PushObject(__ret, mStack, result_of_this_method);
+        }
+        
         public virtual object Value { get { return _value; } }
         public virtual MPackType ValueType { get { return _type; } }
 
