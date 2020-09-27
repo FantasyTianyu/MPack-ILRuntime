@@ -1,10 +1,10 @@
+基于MPack做了对结合ILRuntime使用的修改，请在ILR绑定前调用MPack.RegisterILRuntimeCLRRedirection(appdomain)注册，再使用。
+
 MPack   
 =====
 This library is a lightweight implementation of the [MessagePack](http://msgpack.org/) binary serialization format. MessagePack is a 1-to-1 binary representation of JSON, and the official specification can be found here: [https://github.com/msgpack...](https://github.com/msgpack/msgpack/blob/master/spec.md).
 
 ![Build status](https://ci.appveyor.com/api/projects/status/84jv0lllniqsicpb?svg=true) (https://ci.appveyor.com/project/caesay/mpack)
-
-基于MPack做了对结合ILRuntime使用的修改，请在ILR绑定前调用MPack.RegisterILRuntimeCLRRedirection(appdomain)注册，再使用。
 
 Notes
 -----
@@ -14,12 +14,6 @@ Notes
 * Transform an MPack object back into a CLR type with the static method `MPack.To<T>();` or MPack.To(type);. MPack also has **explicit** converions going back to most basic types, you can do `string str = (string)mpack;` for instance.
 * MPack now supports native asynchrounous reading and cancellation tokens. It will *not* block a thread to wait on a stream.
 
-NuGet
------
-MPack is available as a NuGet package!
-```
-PM> Install-Package MPack
-```
 
 Usage
 -----
